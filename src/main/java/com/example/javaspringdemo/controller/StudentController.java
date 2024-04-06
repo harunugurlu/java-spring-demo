@@ -3,7 +3,10 @@ package com.example.javaspringdemo.controller;
 import com.example.javaspringdemo.business.student.StudentService;
 import com.example.javaspringdemo.data.entity.Student;
 import com.example.javaspringdemo.dto.StudentDTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,12 +26,15 @@ public class StudentController {
     }
 
     @PostMapping("api/v1/students/create")
-    public Student createStudent(@RequestBody StudentDTO studentDTO) {
-        return studentService.createStudent(studentDTO);
+    public ResponseEntity<Student> createStudent(@RequestBody @Valid StudentDTO studentDTO) {
+        Student student = studentService.createStudent(studentDTO);
+        return new ResponseEntity<>(student, HttpStatus.CREATED);
     }
 
-    @PutMapping("api/v1/students/update")
-    public Student updateStudent(@RequestBody StudentDTO studentDTO) throws Exception {
-        return studentService.updateStudent(studentDTO);
+    @PutMapping("api/v1/students/update/{id}")
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody @Valid StudentDTO studentDTO) throws Exception {
+        Student updatedStudent = studentService.updateStudent(studentDTO, id)
+                .orElseThrow(() -> new Exception("Student not found with id " + id));
+        return ResponseEntity.ok(updatedStudent);
     }
 }

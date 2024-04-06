@@ -3,6 +3,7 @@ package com.example.javaspringdemo.business.student;
 import com.example.javaspringdemo.data.entity.Student;
 import com.example.javaspringdemo.data.repository.StudentRepository;
 import com.example.javaspringdemo.dto.StudentDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class StudentService {
 
     private final StudentRepository studentRepository;
@@ -30,8 +32,7 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
-    public Student updateStudent(StudentDTO studentDTO) throws Exception {
-        Long id = studentDTO.getId();
+    public Optional<Student> updateStudent(StudentDTO studentDTO, Long id) throws Exception {
         if(id <= 0) {
             throw new Exception("Invalid student id: " + id);
         }
@@ -45,6 +46,6 @@ public class StudentService {
             std.setDateOfBirth(studentDTO.getDateOfBirth());
         });
 
-        return studentRepository.save(student.get());
+        return Optional.of(studentRepository.save(student.get()));
     }
 }

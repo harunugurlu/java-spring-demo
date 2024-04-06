@@ -46,7 +46,7 @@ public class StudentDTO {
     }
 
     public Integer getAge() {
-        return Period.between(dateOfBirth, LocalDate.now()).getYears();
+        return this.age;
     }
 
     public void setAge(Integer age) {
