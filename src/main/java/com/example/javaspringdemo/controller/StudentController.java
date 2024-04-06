@@ -4,10 +4,7 @@ import com.example.javaspringdemo.business.student.StudentService;
 import com.example.javaspringdemo.data.entity.Student;
 import com.example.javaspringdemo.dto.StudentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +24,11 @@ public class StudentController {
 
     @PostMapping("api/v1/students/create")
     public Student createStudent(@RequestBody StudentDTO studentDTO) {
-
         return studentService.createStudent(studentDTO);
+    }
+
+    @PutMapping("api/v1/students/update")
+    public Student updateStudent(@RequestBody StudentDTO studentDTO) throws Exception {
+        return studentService.updateStudent(studentDTO);
     }
 }
