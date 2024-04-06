@@ -1,8 +1,9 @@
-package com.example.javaspringdemo.model;
+package com.example.javaspringdemo.dto;
 
 import java.time.LocalDate;
+import java.time.Period;
 
-public class Student {
+public class StudentDTO {
 
     private Long id;
     private String name;
@@ -10,17 +11,17 @@ public class Student {
     private LocalDate dateOfBirth;
     private String email;
 
-    public Student() {
+    public StudentDTO() {
     }
 
-    public Student(String name, Integer age, LocalDate dateOfBirth, String email) {
+    public StudentDTO(String name, Integer age, LocalDate dateOfBirth, String email) {
         this.name = name;
         this.age = age;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
     }
 
-    public Student(Long id, String name, Integer age, LocalDate dateOfBirth, String email) {
+    public StudentDTO(Long id, String name, Integer age, LocalDate dateOfBirth, String email) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -45,7 +46,7 @@ public class Student {
     }
 
     public Integer getAge() {
-        return age;
+        return Period.between(dateOfBirth, LocalDate.now()).getYears();
     }
 
     public void setAge(Integer age) {

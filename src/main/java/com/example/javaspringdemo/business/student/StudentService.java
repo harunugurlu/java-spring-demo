@@ -2,10 +2,10 @@ package com.example.javaspringdemo.business.student;
 
 import com.example.javaspringdemo.data.entity.Student;
 import com.example.javaspringdemo.data.repository.StudentRepository;
+import com.example.javaspringdemo.dto.StudentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,11 +22,10 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public Student createStudent() {
+    public Student createStudent(StudentDTO studentDTO) {
         Student student = new Student(
-                "harun", LocalDate.of(2001, 3, 1), "harunugurlu-x@outlook.com"
+                studentDTO.getName(), studentDTO.getDateOfBirth(), studentDTO.getEmail()
         );
-
         return studentRepository.save(student);
     }
 }
