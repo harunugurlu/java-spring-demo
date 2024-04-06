@@ -1,6 +1,11 @@
 package com.example.javaspringdemo.data.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Past;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -12,13 +17,21 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "name", nullable = false, length = 100)
+    @NotBlank
     private String name;
-    @Column(name = "age", nullable = false)
+
+    @Transient
     private Integer age;
+
     @Column(name = "dateOfBirth", nullable = false)
+    @Past(message = "The date of birth must be in the past")
     private LocalDate dateOfBirth;
+
     @Column(name = "email", nullable = false, length = 100)
+    @Email
+    @NotBlank
     private String email;
 
     public Student() {
@@ -37,7 +50,6 @@ public class Student {
     public Student(Long id, String name, LocalDate dateOfBirth, String email) {
         this.id = id;
         this.name = name;
-        this.age = age;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
 
@@ -62,7 +74,7 @@ public class Student {
     }
 
     public Integer getAge() {
-        return age;
+        return Period.between(this.dateOfBirth, LocalDate.now()).getYears();
     }
 
     public void setAge(Integer age) {
