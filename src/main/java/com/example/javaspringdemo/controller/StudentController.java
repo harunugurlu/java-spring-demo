@@ -5,6 +5,7 @@ import com.example.javaspringdemo.data.entity.Student;
 import com.example.javaspringdemo.dto.StudentDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +37,11 @@ public class StudentController {
         Student updatedStudent = studentService.updateStudent(studentDTO, id)
                 .orElseThrow(() -> new Exception("Student not found with id " + id));
         return ResponseEntity.ok(updatedStudent);
+    }
+
+    @DeleteMapping("api/v1/students/delete/{id}")
+    public ResponseEntity<Student> deleteStudent(@PathVariable Long id) throws Exception {
+        Student deletedStudent = studentService.deleteStudent(id).orElseThrow(() -> new Exception("Student not found with id: " + id));
+        return new ResponseEntity<>(deletedStudent, HttpStatus.OK);
     }
 }

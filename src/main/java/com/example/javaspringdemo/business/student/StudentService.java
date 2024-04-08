@@ -48,4 +48,16 @@ public class StudentService {
 
         return Optional.of(studentRepository.save(student.get()));
     }
+
+    public Optional<Student> deleteStudent(Long id) throws Exception{
+        if(id <= 0) {
+            throw new Exception("Invalid student id: " + id);
+        }
+        Optional<Student> student = studentRepository.findById(id);
+        if(!student.isPresent()) {
+            throw new Exception("Student with id: " + id + " is not found");
+        }
+        studentRepository.deleteById(id);
+        return student;
+    }
 }
